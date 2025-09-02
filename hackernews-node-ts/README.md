@@ -13,8 +13,6 @@ Source : https://www.howtographql.com/typescript-helix/0-introduction/
 ## GraphiQL
 http://localhost:3000/graphql
 
-
-
 # Query 
 
 ## Simple Query (Get)
@@ -36,3 +34,15 @@ mutation {
   }
 }
 ``` 
+
+# Prisma 
+run `npx prisma init`
+
+Next steps:
+1. Run `prisma dev` to start a local Prisma Postgres server.
+2. Define models in the `schema.prisma` file.
+3. Run `npx prisma migrate dev` to migrate your local Prisma Postgres database.
+4. Tip: Explore how you can extend the `ORM` with scalable connection pooling, global caching, and a managed serverless Postgres database. Read: https://pris.ly/cli/beyond-orm
+5. More information in our documentation: https://pris.ly/d/getting-started
+
+Execute `npx ts-node src/script.ts` to execute the following file and see what's inside our database
