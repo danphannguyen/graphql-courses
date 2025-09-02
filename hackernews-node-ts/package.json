@@ -18,7 +18,9 @@
 	},
 	"dependencies": {
 		"@graphql-tools/schema": "^10.0.25",
+		"fastify": "^5.5.0",
 		"graphql": "^16.11.0",
+		"graphql-helix": "^1.13.0",
 		"graphql-import-node": "^0.0.5"
 	}
 }
