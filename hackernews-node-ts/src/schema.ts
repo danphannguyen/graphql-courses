@@ -5,6 +5,7 @@ import { Link, User } from "@prisma/client";
 import { JWT_SECRET } from "./auth";
 import { hash, compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
+import { PubSubChannels } from "./pubsub";
 
 
 const resolvers = {
@@ -46,13 +47,16 @@ const resolvers = {
         throw new Error("Unauthenticated!");
       }
 
-      const newLink = context.prisma.link.create({
+      const newLink = await context.prisma.link.create({
         data: {
           url: args.url,
           description: args.description,
           postedBy: { connect: { id: context.currentUser.id } },
         },
       });
+
+      context.pubSub.publish("newLink", { createdLink: newLink });
+
       return newLink;
     },
     signup: async (
@@ -96,6 +100,16 @@ const resolvers = {
         token,
         user,
       };
+    },
+  },
+  Subscription: {
+    newLink: {
+      subscribe: (parent: unknown, args: {}, context: GraphQLContext) => {
+        return context.pubSub.asyncIterableIterator("newLink");
+      },
+      resolve: (payload: PubSubChannels["newLink"][0]) => {
+        return payload.createdLink;
+      },
     },
   },
 };
